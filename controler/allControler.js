@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const handleRegister = async (req, res)=>{
-    const {psw, email, username} = req.body
+    const {password, email, username} = req.body
 
     const conflict = User.findOne({email})
     if(conflict) return res.status(400).send('user already exist')
     
     const salt = await bcrypt.genSalt(10)
-    const hashedpassword = await bcrypt.hash(psw, salt)
+    const hashedpassword = await bcrypt.hash(password, salt)
 
     const user = new User({
         password: hashedpassword,
@@ -26,12 +26,12 @@ const handleRegister = async (req, res)=>{
 
 const handleLogin = async (req, res)=>{
     if(!req.body.email) return res.status(400).send('email required')
-    if(!req.body.psw) return res.status(400).send('password required')
+    if(!req.body.password) return res.status(400).send('password required')
 
     const founduser = await User.findOne({email : req.body.email})
     if(!founduser) return res.status(400).send('wrong email or password')
 
-    const match = await bcrypt.compare(req.body.psw, founduser.password)
+    const match = await bcrypt.compare(req.body.password, founduser.password)
     if(!match) return res.status(400).send('wrong email or password')
 
     try{
@@ -50,7 +50,7 @@ const handleLogin = async (req, res)=>{
             .then(()=> { return } )
             .catch((err)=>console.log(err))
 
-            res.cookie('jwt', refreshtoken, {httponly: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'None', secure: true})
+            res.cookie('jwt', refreshtoken, {httponly: true, maxAge: 24 * 60 * 60 * 1000, secure: true, sameSite: 'None'})
             res.json({accesstoken})
     }catch(err){
         console.log(err);
@@ -66,6 +66,7 @@ const handleGet = (req, res)=>{
 
 const handleGetNewAccessToken =(req, res)=>{
     const recRefresh = req.cookies
+    console.log(recRefresh);
     if(!recRefresh.jwt) return res.sendStatus(401)
 
     const person = User.findOne(recRefresh)
@@ -90,7 +91,7 @@ const handleLogout = (req, res)=>{
  const cookie = req.cookies.jwt;
  if(!cookie) return res.sendStatus(204)
     User.findOneAndUpdate(cookie, {refreshtoken: ''})
- res.clearCookie('jwt', { httponly: true, sameSite: 'None', secure: true })
+ res.clearCookie('jwt', { httponly: true, secure: true })
  res.sendStatus(204)
 }
 
