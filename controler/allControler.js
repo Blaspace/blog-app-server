@@ -25,6 +25,9 @@ const handleRegister = async (req, res)=>{
 }
 
 const handleLogin = async (req, res)=>{
+    if(!req.body.email) return res.status(400).send('email required')
+    if(!req.body.psw) return res.status(400).send('password required')
+
     const founduser = await User.findOne({email : req.body.email})
     if(!founduser) return res.status(400).send('wrong email or password')
 
