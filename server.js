@@ -12,7 +12,7 @@ app.use(cors(corsOption))
 app.use(cookieParser())
 mongoose.set('strictQuery', true)
 mongoose.connect('mongodb://localhost:27017/todo-list', ()=>{
-    app.listen(5000, ()=> console.log('listening'))
+    app.listen(3500, ()=> console.log('listening'))
 })
 app.use(express.json())
 app.use(router)

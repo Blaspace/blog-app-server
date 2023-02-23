@@ -6,8 +6,8 @@ require('dotenv').config()
 const handleRegister = async (req, res)=>{
     const {password, email, username} = req.body
 
-    const conflict = User.findOne({email})
-    if(conflict) return res.status(400).send('user already exist')
+    const conflict =await User.findOne({email})
+    if(conflict) return res.status(409).send('user already exist')
     
     const salt = await bcrypt.genSalt(10)
     const hashedpassword = await bcrypt.hash(password, salt)
@@ -26,7 +26,7 @@ const handleRegister = async (req, res)=>{
 
 const handleLogin = async (req, res)=>{
     if(!req.body.email) return res.sendStatus(400)
-    if(!req.body.password) return res.sendStatus(400).send('password required')
+    if(!req.body.password) return res.sendStatus(400)
 
     const founduser = await User.findOne({email : req.body.email})
     if(!founduser) return res.sendStatus(401)
@@ -38,7 +38,7 @@ const handleLogin = async (req, res)=>{
         const accesstoken = jwt.sign(
             {"email":founduser.email},
              process.env.ACCESS_TOKEN,
-             {expiresIn: "30s"}
+             {expiresIn: "1000s"}
             )
         const refreshtoken = jwt.sign(
             {"email":founduser.email},
@@ -49,9 +49,7 @@ const handleLogin = async (req, res)=>{
             User.findOneAndUpdate( req.body.email ,{refreshtoken})
             .then(()=> { return } )
             .catch((err)=>console.log(err))
-
-            res.cookie('jwt', refreshtoken, { maxAge: 24 * 60 * 60 * 1000, secure: true, httponly: true, sameSite: 'None'})
-            res.json({accesstoken})
+            res.json({accesstoken, refreshtoken})
     }catch(err){
         console.log(err);
         res.sendStatus(400)
@@ -59,28 +57,33 @@ const handleLogin = async (req, res)=>{
 }
 
 const handleGet = (req, res)=>{
-    User.find()
-    .then((data)=> res.send(data))
-    .catch((err)=> console.log(err))
+    const accesstoken = req.body.accesstoken
+   jwt.verify(
+        accesstoken,
+        process.env.ACCESS_TOKEN,
+        (err, decoded)=>{
+            if(err) return res.sendStatus(401)
+          User.findOne({email: decoded.email})
+            .then(data => res.json({ email: data.username }))
+        }
+   )
 }
 
 const handleGetNewAccessToken =(req, res)=>{
-    const recRefresh = req.cookies
-    console.log(recRefresh);
-    if(!recRefresh.jwt) return res.sendStatus(401)
-
-    const person = User.findOne(recRefresh)
-    if(!person) return res.sendStatus(403)
+    const {refreshtoken} = req.body
+    if(!refreshtoken) return res.sendStatus(401)
+    const person = User.findOne(refreshtoken)
+    if(!person) return res.sendStatus(401)
 
     jwt.verify(
-        recRefresh.jwt,
+        refreshtoken,
         process.env.REFRESH_TOKEN,
         (err, decoded)=>{
-        if(err) return res.sendStatus(403)
+        if(err) return console.log(err);
         const accesstoken = jwt.sign(
                     {"email":decoded.email},
                     process.env.ACCESS_TOKEN,
-                    {expiresIn: "30s"}
+                    {expiresIn: "1000s"}
                 )
                 res.json({accesstoken})
         }

@@ -1,15 +1,16 @@
 const jwt = require('jsonwebtoken')
+const User = require('../schemas/userSchema')
 require('dotenv').config()
 
 const accesRoute = (req, res, next)=>{
-    const authheader = req.headers.authorization.slice(7)
-    if(!authheader) return res.sendStatus(401)
+    const authbody = req.body.accesstoken
+    if(!authbody) return res.sendStatus(401)
     jwt.verify(
-        authheader,
+        authbody,
         process.env.ACCESS_TOKEN,
         (err, decoded)=>{
-            if(err) return res.sendStatus(403)
-            req.user = decoded.email;
+        if(err) return res.sendStatus(401)
+            
             next()
         }
     )
