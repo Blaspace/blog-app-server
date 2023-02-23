@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const User = require('../schemas/userSchema')
 require('dotenv').config()
 
 const accesRoute = (req, res, next)=>{
