@@ -25,14 +25,14 @@ const handleRegister = async (req, res)=>{
 }
 
 const handleLogin = async (req, res)=>{
-    if(!req.body.email) return res.status(400).send('email required')
-    if(!req.body.password) return res.status(400).send('password required')
+    if(!req.body.email) return res.sendStatus(400)
+    if(!req.body.password) return res.sendStatus(400).send('password required')
 
     const founduser = await User.findOne({email : req.body.email})
-    if(!founduser) return res.status(400).send('wrong email or password')
+    if(!founduser) return res.sendStatus(401)
 
     const match = await bcrypt.compare(req.body.password, founduser.password)
-    if(!match) return res.status(400).send('wrong email or password')
+    if(!match) return res.sendStatus(401)
 
     try{
         const accesstoken = jwt.sign(
@@ -50,7 +50,7 @@ const handleLogin = async (req, res)=>{
             .then(()=> { return } )
             .catch((err)=>console.log(err))
 
-            res.cookie('jwt', refreshtoken, {httponly: true, maxAge: 24 * 60 * 60 * 1000, secure: true, sameSite: 'None'})
+            res.cookie('jwt', refreshtoken, { maxAge: 24 * 60 * 60 * 1000, secure: true, httponly: true, sameSite: 'None'})
             res.json({accesstoken})
     }catch(err){
         console.log(err);
