@@ -1,22 +1,21 @@
 const { string } = require('@hapi/joi')
 const mongoose = require('mongoose')
 
-const UserSchema = new mongoose.Schema({
+const blogSchema = new mongoose.Schema({
     username:{
         type: String,
         require: true
     },
-    email:{
+    date:{
         type: String,
         require: true
     },
-    password:{
+    blog:{
         require: true,
         type: String
-    },
-    accesstoken: String
+    }
 })
 
-const User = mongoose.model('User', UserSchema)
+const Blog = mongoose.model('Blog', blogSchema)
 
-module.exports = User
+module.exports = Blog

@@ -8,10 +8,14 @@ router.post('/login', controler.handleLogin)
 
 router.post('/register', controler.handleRegister)
 
-router.post('/refresh', controler.handleGetNewAccessToken)
+router.post('/verify', controler.verifyAccesstoken)
 
-router.get('/logout', controler.handleLogout)
+router.post('/logout', controler.handleLogout)
 
 router.post('/get',auth, controler.handleGet)
+
+router.post('/newblog', controler.handleNewBlog)
+
+router.post('/blog', controler.handleGetBlog)
 
 module.exports = router

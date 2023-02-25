@@ -1,17 +1,34 @@
 const bcrypt = require('bcrypt')
 const User = require('../schemas/userSchema')
 const jwt = require('jsonwebtoken')
+const Blog = require('../schemas/blogSchema')
 require('dotenv').config()
 
+const verifyAccesstoken =(req, res)=>{
+    const {accesstoken} = req.body
+    if(!accesstoken) return res.sendStatus(401)
+    jwt.verify(
+        accesstoken,
+        process.env.ACCESS_TOKEN,
+        (err, decoded)=>{
+            if(err) return res.sendStatus(401)
+            res.sendStatus(200)
+        }
+    )
+}
+
+//sign up function
 const handleRegister = async (req, res)=>{
     const {password, email, username} = req.body
 
+    //chacking if the user with email already exist
     const conflict =await User.findOne({email})
     if(conflict) return res.status(409).send('user already exist')
-    
+
+    //hashing password with bcript
     const salt = await bcrypt.genSalt(10)
     const hashedpassword = await bcrypt.hash(password, salt)
-
+    //saving user to db
     const user = new User({
         password: hashedpassword,
         email: email,
@@ -24,40 +41,41 @@ const handleRegister = async (req, res)=>{
     .catch((err)=>console.log(err))
 }
 
+//login function
 const handleLogin = async (req, res)=>{
     if(!req.body.email) return res.sendStatus(400)
     if(!req.body.password) return res.sendStatus(400)
 
+    //checking if the user is in db
     const founduser = await User.findOne({email : req.body.email})
     if(!founduser) return res.sendStatus(401)
 
+    //checking if the users password is accurate
     const match = await bcrypt.compare(req.body.password, founduser.password)
     if(!match) return res.sendStatus(401)
 
+    //sending jwt tokens
     try{
         const accesstoken = jwt.sign(
             {"email":founduser.email},
              process.env.ACCESS_TOKEN,
-             {expiresIn: "1000s"}
+             {expiresIn: "1d"}
             )
-        const refreshtoken = jwt.sign(
-            {"email":founduser.email},
-                process.env.REFRESH_TOKEN,
-                {expiresIn: "1d"}
-            )
-
-            User.findOneAndUpdate( req.body.email ,{refreshtoken})
+            //saving accesstoken in db
+            User.findOneAndUpdate( req.body.email ,{accesstoken})
             .then(()=> { return } )
             .catch((err)=>console.log(err))
-            res.json({accesstoken, refreshtoken})
+            res.json({accesstoken})
     }catch(err){
         console.log(err);
         res.sendStatus(400)
     }
 }
 
+//function to get users info
 const handleGet = (req, res)=>{
     const accesstoken = req.body.accesstoken
+    //verifying the token
    jwt.verify(
         accesstoken,
         process.env.ACCESS_TOKEN,
@@ -68,40 +86,44 @@ const handleGet = (req, res)=>{
         }
    )
 }
-
-const handleGetNewAccessToken =(req, res)=>{
-    const {refreshtoken} = req.body
-    if(!refreshtoken) return res.sendStatus(401)
-    const person = User.findOne(refreshtoken)
-    if(!person) return res.sendStatus(401)
-
-    jwt.verify(
-        refreshtoken,
-        process.env.REFRESH_TOKEN,
-        (err, decoded)=>{
-        if(err) return console.log(err);
-        const accesstoken = jwt.sign(
-                    {"email":decoded.email},
-                    process.env.ACCESS_TOKEN,
-                    {expiresIn: "1000s"}
-                )
-                res.json({accesstoken})
+const handleLogout= (req, res)=>{
+    const {accesstoken} = req.body
+    if(!accesstoken) return res.sendStatus(208)
+    User.findOneAndUpdate({accesstoken}, {accesstoken:''})
+    .then(()=> res.sendStatus(208))
+    .catch((err)=> {
+        if(err){
+            res.sendStatus(400)
         }
-    )
+    })
 }
 
-const handleLogout = (req, res)=>{
- const cookie = req.cookies.jwt;
- if(!cookie) return res.sendStatus(204)
-    User.findOneAndUpdate(cookie, {refreshtoken: ''})
- res.clearCookie('jwt', { httponly: true, secure: true })
- res.sendStatus(204)
+const handleNewBlog =(req, res)=>{
+    const {date, name, blog} = req.body
+ console.log(date, name, blog);
+    if(!date || !blog){
+        res.sendStatus(400)
+    }
+    const newblog = new Blog({
+        date,
+        blog
+    })
+    newblog.save()
+    .then(()=> res.sendStatus(204))
+    .catch(()=> res.sendStatus(407))
+}
+
+const handleGetBlog =(req, res)=>{
+    Blog.find()
+    .then((data)=> res.json(data))
 }
 
 module.exports = {
     handleRegister,
     handleLogin,
     handleGet,
-    handleGetNewAccessToken,
-    handleLogout
+    handleLogout,
+    handleNewBlog,
+    handleGetBlog,
+    verifyAccesstoken
 }
