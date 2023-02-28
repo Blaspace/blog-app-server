@@ -1,4 +1,4 @@
-const { string } = require('@hapi/joi')
+const { string, object } = require('@hapi/joi')
 const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({
@@ -13,6 +13,9 @@ const blogSchema = new mongoose.Schema({
     blog:{
         require: true,
         type: String
+    },
+    image:{
+        type: Object
     }
 })
 

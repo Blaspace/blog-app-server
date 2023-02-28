@@ -1,21 +1,27 @@
 const express = require('express')
-const controler = require('../controler/allControler')
+const login = require('../controler/login')
+const register = require('../controler/register')
+const verify = require('../controler/verify')
+const logout = require('../controler/logout')
+const getUer = require('../controler/getUser')
+const createBlog = require('../controler/createBlog')
+const getBlog = require('../controler/getBlog')
 const auth = require('../midlewear/auth')
 
 const router = express.Router()
 
-router.post('/login', controler.handleLogin)
+router.post('/login', login)
 
-router.post('/register', controler.handleRegister)
+router.post('/register', register)
 
-router.post('/verify', controler.verifyAccesstoken)
+router.post('/verify', verify)
 
-router.post('/logout', controler.handleLogout)
+router.post('/logout', logout)
 
-router.post('/get',auth, controler.handleGet)
+router.post('/get',auth, getUer)
 
-router.post('/newblog', controler.handleNewBlog)
+router.post('/newblog', createBlog)
 
-router.post('/blog', controler.handleGetBlog)
+router.post('/blog', getBlog)
 
 module.exports = router
