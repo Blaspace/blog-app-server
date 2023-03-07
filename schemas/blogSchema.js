@@ -4,18 +4,19 @@ const mongoose = require('mongoose')
 const blogSchema = new mongoose.Schema({
     username:{
         type: String,
-        require: true
+        required: true
+    },
+    userid:{
+        type:String,
+        required: true
     },
     date:{
         type: String,
-        require: true
+        required: true
     },
     blog:{
-        require: true,
+        required: true,
         type: String
-    },
-    image:{
-        type: Object
     }
 })
 

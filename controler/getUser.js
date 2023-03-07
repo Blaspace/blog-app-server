@@ -11,7 +11,13 @@ const handleGet = (req, res)=>{
         (err, decoded)=>{
             if(err) return res.sendStatus(401)
           User.findOne({email: decoded.email})
-            .then(data => res.json({ name: data.username, email: data.name }))
+            .then(data => res.json({
+               name: data.username, 
+               email: data.name, 
+               state: data.state,
+               job: data.job,
+               _id: data._id
+               }))
         }
    )
 }

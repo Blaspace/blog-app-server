@@ -1,14 +1,14 @@
 const Blog = require('../schemas/blogSchema')
 
 const handleNewBlog =(req, res)=>{
-    const {date, blog, username} = req.body
-
-    if(!date || !blog || !username) return res.sendStatus(400)
+    const {date, blog, username, userid} = req.body
+    if(!date || !blog || !username || !userid) return res.sendStatus(400)
     
     const newblog = new Blog({
         date,
         blog,
-        username
+        username,
+        userid
     })
     newblog.save()
     .then(()=> res.sendStatus(204))
