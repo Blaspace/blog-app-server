@@ -7,7 +7,11 @@ const getSingleUser =(req, res)=>{
             email: data.name, 
             state: data.state,
             job: data.job,
-            _id: data._id})
+            _id: data._id,
+            city: data.city,
+            school: data.school,
+            bio: data.bio
+        })
     })
     .catch(err=> res.sendStatus(400))
 }

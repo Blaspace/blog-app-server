@@ -29,9 +29,6 @@ const UserSchema = new mongoose.Schema({
     },
     state:{
         type: String
-    },
-    school:{
-        type: String
     }
 })
 

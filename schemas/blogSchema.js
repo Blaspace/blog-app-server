@@ -1,4 +1,3 @@
-const { string, object } = require('@hapi/joi')
 const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({
