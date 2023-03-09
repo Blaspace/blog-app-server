@@ -13,6 +13,7 @@ const handleRemoveUser = require('../controler/removeUser')
 const handleDeleteBlog = require('../controler/deleteBlog')
 const handleGetSingleBlog = require('../controler/getSingleBlog')
 const handleEditBlog = require('../controler/editBlog')
+const handleEditProfile = require('../controler/editProfile')
 const router = express.Router()
 
 router.post('/login', login)
@@ -40,5 +41,7 @@ router.post('/deleteblog/:id', handleDeleteBlog)
 router.post('/singleblog/:id', handleGetSingleBlog)
 
 router.post('/editblog/:id', handleEditBlog)
+
+router.post('/editprofile/:id', handleEditProfile)
 
 module.exports = router
