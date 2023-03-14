@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema({
     },
     state:{
         type: String
+    },
+    image: {
+        data : Buffer,
+        contentType: String
     }
 })
 

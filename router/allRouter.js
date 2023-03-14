@@ -14,7 +14,9 @@ const handleDeleteBlog = require('../controler/deleteBlog')
 const handleGetSingleBlog = require('../controler/getSingleBlog')
 const handleEditBlog = require('../controler/editBlog')
 const handleEditProfile = require('../controler/editProfile')
+const handleProfileUpload = require('../controler/profileImage')
 const router = express.Router()
+const upload = require('../midlewear/upload')
 
 router.post('/login', login)
 
@@ -26,7 +28,7 @@ router.post('/logout', logout)
 
 router.post('/get',auth, getUser)
 
-router.post('/newblog', createBlog)
+router.post('/newblog', upload, createBlog)
 
 router.post('/blog', getBlog)
 
@@ -43,5 +45,7 @@ router.post('/singleblog/:id', handleGetSingleBlog)
 router.post('/editblog/:id', handleEditBlog)
 
 router.post('/editprofile/:id', handleEditProfile)
+
+router.post('/profileimage/:id', upload, handleProfileUpload)
 
 module.exports = router

@@ -27,7 +27,6 @@ const handleLogin = async (req, res)=>{
             .catch((err)=>console.log(err))
             res.json({accesstoken})
     }catch(err){
-        console.log(err);
         res.sendStatus(400)
     }
 }

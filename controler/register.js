@@ -26,7 +26,7 @@ const handleRegister = async (req, res)=>{
     .then((data)=>{
         res.send(data)
     })
-    .catch((err)=>console.log(err))
+    .catch((err)=> res.sendStatus(400))
 }
 
 module.exports = handleRegister

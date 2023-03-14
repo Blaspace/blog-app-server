@@ -10,7 +10,8 @@ const getSingleUser =(req, res)=>{
             _id: data._id,
             city: data.city,
             school: data.school,
-            bio: data.bio
+            bio: data.bio,
+            image: data.image
         })
     })
     .catch(err=> res.sendStatus(400))

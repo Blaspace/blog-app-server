@@ -16,8 +16,10 @@ const handleGet = (req, res)=>{
                email: data.name, 
                state: data.state,
                job: data.job,
+                image: data.image,
                _id: data._id
                }))
+               .catch(err => res.sendStatus(401))
         }
    )
 }
