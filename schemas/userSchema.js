@@ -1,41 +1,41 @@
-const { string } = require('@hapi/joi')
-const mongoose = require('mongoose')
+const { string } = require("@hapi/joi");
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-    username:{
-        type: String,
-        require: true
-    },
-    email:{
-        type: String,
-        require: true
-    },
-    password:{
-        require: true,
-        type: String
-    },
-    accesstoken: String,
-    bio:{
-        type:String
-    },
-    job:{
-        type:String
-    },
-    school:{
-        type:String
-    },
-    city:{
-        type:String
-    },
-    state:{
-        type: String
-    },
-    image: {
-        data : Buffer,
-        contentType: String
-    }
-})
+  username: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    require: true,
+  },
+  password: {
+    require: true,
+    type: String,
+  },
+  accesstoken: String,
+  bio: {
+    type: String,
+  },
+  job: {
+    type: String,
+  },
+  school: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
+});
 
-const User = mongoose.model('User', UserSchema)
+const User = mongoose.model("User", UserSchema);
 
-module.exports = User
+module.exports = User;
