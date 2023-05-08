@@ -29,7 +29,7 @@ const handleLogin = async (req, res) => {
       .catch((err) => console.log(err));
     res.json({ accesstoken });
   } catch (err) {
-    res.sendStatus(400);
+    res.sendStatus(401);
   }
 };
 

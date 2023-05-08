@@ -1,12 +1,20 @@
 const jwt = require("jsonwebtoken");
+const User = require("../schemas/userSchema");
 
-const verifyAccesstoken = (req, res) => {
+const Verify = (req, res) => {
   const { accesstoken } = req.body;
-  if (!accesstoken) return res.sendStatus(401);
+  if (!accesstoken) return res.sendStatus(400);
+
+  const foundUser = User.findOne({ accesstoken });
+  if (!foundUser) return res.sendStatus(400);
+
   jwt.verify(accesstoken, process.env.ACCESS_TOKEN, (err, decoded) => {
-    if (err) return res.sendStatus(401);
-    res.sendStatus(200);
+    if (err) {
+      return res.sendStatus(400);
+    } else {
+      return res.sendStatus(200);
+    }
   });
 };
 
-module.exports = verifyAccesstoken;
+module.exports = Verify;

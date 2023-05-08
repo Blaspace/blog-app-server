@@ -6,7 +6,6 @@ const logout = require("../controler/logout");
 const getUser = require("../controler/getUser");
 const createBlog = require("../controler/createBlog");
 const getBlog = require("../controler/getBlog");
-const auth = require("../midlewear/auth");
 const allUser = require("../controler/allUsers");
 const getSingleUser = require("../controler/getsingleuser");
 const handleRemoveUser = require("../controler/removeUser");
@@ -26,7 +25,7 @@ router.post("/verify", verify);
 
 router.post("/logout", logout);
 
-router.post("/get", auth, getUser);
+router.post("/get", getUser);
 
 router.post("/newblog", upload, createBlog);
 

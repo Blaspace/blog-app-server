@@ -14,7 +14,6 @@ const blogSchema = new mongoose.Schema({
     required: true,
   },
   blog: {
-    required: true,
     type: String,
   },
   blogimage: {
