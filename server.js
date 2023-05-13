@@ -6,10 +6,11 @@ const app = express();
 require("dotenv").config();
 
 const uri = process.env.DBUIR;
+//const uri = "mongodb://localhost:27017/todo-list";
 app.use(cors());
 mongoose.set("strictQuery", true);
 mongoose.connect(uri, () => {
-  app.listen(3500, () => console.log("listening"));
+  app.listen(3500, () => console.log(`listening`));
 });
 app.use(express.json());
 app.use(router);
