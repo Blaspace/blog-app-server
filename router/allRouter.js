@@ -16,6 +16,8 @@ const handleEditProfile = require("../controler/editProfile");
 const handleProfileUpload = require("../controler/profileImage");
 const router = express.Router();
 const upload = require("../midlewear/upload");
+const handleRefresh = require("../controler/handleRefresh");
+const accesRoute = require("../midlewear/auth");
 
 router.post("/login", login);
 
@@ -25,25 +27,27 @@ router.post("/verify", verify);
 
 router.post("/logout", logout);
 
-router.post("/get", getUser);
+router.post("/get", accesRoute, getUser);
 
 router.post("/newblog", upload, createBlog);
 
-router.post("/blog", getBlog);
+router.post("/blog", accesRoute, getBlog);
 
-router.post("/users", allUser);
+router.post("/users", accesRoute, allUser);
 
-router.post("/singleuser/:id", getSingleUser);
+router.post("/singleuser/:id", accesRoute, getSingleUser);
 
 router.post("/deleteuser", handleRemoveUser);
 
 router.post("/deleteblog/:id", handleDeleteBlog);
 
-router.post("/singleblog/:id", handleGetSingleBlog);
+router.post("/singleblog/:id", accesRoute, handleGetSingleBlog);
 
 router.post("/editblog/:id", handleEditBlog);
 
 router.post("/editprofile/:id", handleEditProfile);
+
+router.post("/refresh", handleRefresh);
 
 router.post("/profileimage/:id", upload, handleProfileUpload);
 

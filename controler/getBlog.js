@@ -5,7 +5,10 @@ const handleGetBlog = (req, res) => {
     .then((data) => {
       res.send(data);
     })
-    .catch((err) => res.sendStatus(400));
+    .catch((err) => {
+      res.sendStatus(400);
+      console.log(err);
+    });
 };
 
 module.exports = handleGetBlog;

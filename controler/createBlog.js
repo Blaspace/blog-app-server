@@ -4,16 +4,11 @@ const fs = require("fs");
 const handleNewBlog = (req, res) => {
   const { date, blog, username, userid } = req.body;
 
-  //if (req.file.size > 129000) {
-  //  return res.sendStatus(400);
-  //}
-  console.log(blog);
-
   if (req.file && blog) {
     if (req.file.size > 129000) {
       return res.sendStatus(400);
     }
-    if (!date || !blog || !username || !userid) return res.sendStatus(401);
+    if (!date || !blog || !username || !userid) return res.sendStatus(400);
     const newblog = new Blog({
       date,
       blog,
@@ -32,7 +27,7 @@ const handleNewBlog = (req, res) => {
         console.log(err);
       });
   } else if (blog && !req.file) {
-    if (!date || !blog || !username || !userid) return res.sendStatus(401);
+    if (!date || !blog || !username || !userid) return res.sendStatus(400);
     const newblog = new Blog({
       date,
       blog,

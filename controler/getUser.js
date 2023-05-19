@@ -3,10 +3,10 @@ const User = require("../schemas/userSchema");
 
 //function to get users info
 const handleGet = (req, res) => {
-  const accesstoken = req.body.accesstoken;
+  const { accesstoken } = req.body;
   //verifying the token
   jwt.verify(accesstoken, process.env.ACCESS_TOKEN, (err, decoded) => {
-    if (err) return res.sendStatus(401);
+    if (err) return res.sendStatus(403);
     User.findOne({ email: decoded.email })
       .then((data) =>
         res.json({
@@ -18,7 +18,7 @@ const handleGet = (req, res) => {
           _id: data._id,
         })
       )
-      .catch((err) => res.sendStatus(401));
+      .catch((err) => res.sendStatus(403));
   });
 };
 

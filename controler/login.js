@@ -19,7 +19,13 @@ const handleLogin = async (req, res) => {
     const accesstoken = jwt.sign(
       { email: founduser.email },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "1d" }
+      { expiresIn: "15m" }
+    );
+
+    const refrshtoken = jwt.sign(
+      { email: founduser.email },
+      process.env.REFRESH_TOKEN,
+      { expiresIn: "15d" }
     );
     //saving accesstoken in db
     User.findOneAndUpdate(req.body.email, { accesstoken })
@@ -27,6 +33,13 @@ const handleLogin = async (req, res) => {
         return;
       })
       .catch((err) => console.log(err));
+
+    res.cookie("jwt", refrshtoken, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 15,
+      path: "/",
+    });
     res.json({ accesstoken });
   } catch (err) {
     res.sendStatus(401);
