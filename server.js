@@ -6,8 +6,8 @@ const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
 
-//const uri = process.env.DBUIR;
-const uri = "mongodb://localhost:27017/todo-list";
+const uri = process.env.DBUIR;
+//const uri = "mongodb://localhost:27017/todo-list";
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(cookieParser());
 mongoose.set("strictQuery", true);
