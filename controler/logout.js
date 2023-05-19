@@ -10,6 +10,7 @@ const handleLogout = (req, res) => {
         httpOnly: true,
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000,
+        secure: true,
         path: "/",
       });
 

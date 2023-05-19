@@ -8,7 +8,13 @@ require("dotenv").config();
 
 const uri = process.env.DBUIR;
 //const uri = "mongodb://localhost:27017/todo-list";
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    credentials: true,
+    local: "http://localhost:3000",
+    origin: "https://blog-app-client-73he.onrender.com",
+  })
+);
 app.use(cookieParser());
 mongoose.set("strictQuery", true);
 mongoose.connect(uri, () => {

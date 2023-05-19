@@ -38,6 +38,7 @@ const handleLogin = async (req, res) => {
       httpOnly: true,
       sameSite: "strict",
       maxAge: 1000 * 60 * 60 * 24 * 15,
+      secure: true,
       path: "/",
     });
     res.json({ accesstoken });
