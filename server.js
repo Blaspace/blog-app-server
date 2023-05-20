@@ -11,7 +11,7 @@ const uri = process.env.DBUIR;
 app.use(
   cors({
     credentials: true,
-    local: "http://localhost:3000",
+    //origin: "http://localhost:3000",
     origin: "https://blog-app-client-73he.onrender.com",
   })
 );
