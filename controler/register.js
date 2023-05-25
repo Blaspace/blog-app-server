@@ -17,10 +17,8 @@ const handleRegister = async (req, res) => {
     password: hashedpassword,
     email,
     username,
-    job,
     state,
     city,
-    school,
   });
   user
     .save()
