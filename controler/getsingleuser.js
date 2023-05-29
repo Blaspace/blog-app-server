@@ -5,7 +5,7 @@ const getSingleUser = (req, res) => {
     .then((data) => {
       res.send({
         name: data.username,
-        email: data.name,
+        email: data.email,
         state: data.state,
         job: data.job,
         _id: data._id,

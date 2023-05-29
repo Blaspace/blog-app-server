@@ -11,7 +11,7 @@ const handleGet = (req, res) => {
       .then((data) =>
         res.json({
           name: data.username,
-          email: data.name,
+          email: data.email,
           state: data.state,
           job: data.job,
           image: data.image,
