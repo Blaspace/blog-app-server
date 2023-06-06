@@ -3,7 +3,7 @@ const User = require("../schemas/userSchema");
 
 //sign up function
 const handleRegister = async (req, res) => {
-  const { password, email, username, job, state, city, school } = req.body;
+  const { password, email, username, state, city } = req.body;
 
   //chacking if the user with email already exist
   const conflict = await User.findOne({ email });

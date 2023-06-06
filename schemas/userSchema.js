@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     require: true,
     type: String,
   },
-  accesstoken: String,
+  refreshtoken: String,
   bio: {
     type: String,
   },

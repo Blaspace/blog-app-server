@@ -1,12 +1,11 @@
 const User = require("../schemas/userSchema");
 
 const handleLogout = (req, res) => {
-  const { accesstoken } = req.body;
-  const refrshtoken = req.cookies.jwt;
-  if (!accesstoken) return res.sendStatus(208);
-  User.findOneAndUpdate({ accesstoken }, { accesstoken: "" })
+  const refreshtoken = req.cookies.jwt;
+  if (!refreshtoken) return res.sendStatus(208);
+  User.findOneAndUpdate({ refreshtoken }, { refreshtoken: "" })
     .then(() => {
-      res.clearCookie("jwt", refrshtoken, {
+      res.clearCookie("jwt", refreshtoken, {
         httpOnly: true,
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000,

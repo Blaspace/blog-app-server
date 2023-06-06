@@ -21,7 +21,9 @@ const handleNewBlog = (req, res) => {
     });
     newblog
       .save()
-      .then(() => res.sendStatus(204))
+      .then((data) => {
+        res.json(data);
+      })
       .catch((err) => {
         res.status(402).send(err._message);
         console.log(err);
@@ -36,7 +38,7 @@ const handleNewBlog = (req, res) => {
     });
     newblog
       .save()
-      .then(() => res.sendStatus(204))
+      .then((data) => res.send(data))
       .catch(() => res.status(402).send(err._message));
   } else if (req.file && !blog) {
     if (req.file.size > 129000) {
@@ -53,7 +55,7 @@ const handleNewBlog = (req, res) => {
     });
     newblog
       .save()
-      .then(() => res.sendStatus(204))
+      .then((data) => res.send(data))
       .catch((err) => {
         res.status(402).send(err._message);
         console.log(err);

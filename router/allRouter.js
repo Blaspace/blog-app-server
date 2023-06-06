@@ -1,7 +1,6 @@
 const express = require("express");
 const login = require("../controler/login");
 const register = require("../controler/register");
-const verify = require("../controler/verify");
 const logout = require("../controler/logout");
 const getUser = require("../controler/getUser");
 const createBlog = require("../controler/createBlog");
@@ -14,16 +13,14 @@ const handleGetSingleBlog = require("../controler/getSingleBlog");
 const handleEditBlog = require("../controler/editBlog");
 const handleEditProfile = require("../controler/editProfile");
 const handleProfileUpload = require("../controler/profileImage");
-const router = express.Router();
 const upload = require("../midlewear/upload");
 const handleRefresh = require("../controler/handleRefresh");
 const accesRoute = require("../midlewear/auth");
+router = express.Router();
 
 router.post("/login", login);
 
 router.post("/register", register);
-
-router.post("/verify", verify);
 
 router.post("/logout", logout);
 

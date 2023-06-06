@@ -28,7 +28,7 @@ const handleLogin = async (req, res) => {
       { expiresIn: "15d" }
     );
     //saving accesstoken in db
-    User.findOneAndUpdate(req.body.email, { accesstoken })
+    User.findOneAndUpdate(req.body.email, { refreshtoken })
       .then(() => {
         return;
       })
