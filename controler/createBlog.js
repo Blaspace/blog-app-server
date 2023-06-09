@@ -4,7 +4,7 @@ const fs = require("fs");
 const handleNewBlog = (req, res) => {
   const { date, blog, username, userid } = req.body;
 
-  if (req.file && blog) {
+  if (req.file) {
     if (req.file.size > 129000) {
       return res.sendStatus(400);
     }
