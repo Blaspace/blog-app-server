@@ -16,6 +16,8 @@ const handleProfileUpload = require("../controler/profileImage");
 const upload = require("../midlewear/upload");
 const handleRefresh = require("../controler/handleRefresh");
 const accesRoute = require("../midlewear/auth");
+const getProfileImage = require("../controler/GetProfileImage");
+const getBlogImage = require("../controler/getBlogImage");
 router = express.Router();
 
 router.post("/login", login);
@@ -27,6 +29,10 @@ router.post("/logout", logout);
 router.post("/get", accesRoute, getUser);
 
 router.post("/newblog", upload, createBlog);
+
+router.get("/Profile/:filename", getProfileImage);
+
+router.get("/blogimage/:filename", getBlogImage);
 
 router.post("/blog", accesRoute, getBlog);
 

@@ -5,7 +5,8 @@ const storage = multer.diskStorage({
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    const genName = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + genName + ".jpg");
   },
 });
 
