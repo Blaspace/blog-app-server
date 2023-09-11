@@ -6,45 +6,53 @@ const getUser = require("../controler/getUser");
 const createBlog = require("../controler/createBlog");
 const getBlog = require("../controler/getBlog");
 const allUser = require("../controler/allUsers");
-const getSingleUser = require("../controler/getsingleuser");
 const handleRemoveUser = require("../controler/removeUser");
 const handleDeleteBlog = require("../controler/deleteBlog");
-const handleGetSingleBlog = require("../controler/getSingleBlog");
 const handleEditBlog = require("../controler/editBlog");
 const handleEditProfile = require("../controler/editProfile");
 const handleProfileUpload = require("../controler/profileImage");
 const upload = require("../midlewear/upload");
 const handleRefresh = require("../controler/handleRefresh");
-const accesRoute = require("../midlewear/auth");
 const getProfileImage = require("../controler/GetProfileImage");
 const getBlogImage = require("../controler/getBlogImage");
+const handleComment = require("../controler/comment");
+const handleGetComment = require("../controler/getComments");
+const handleLike = require("../controler/handleLike");
+const handleUnlike = require("../controler/handleUnlike");
+const getLike = require("../controler/getLike");
 router = express.Router();
 
 router.post("/login", login);
+
+router.post("/like", handleLike);
+
+router.post("/alllike", getLike);
+
+router.post("/unlike", handleUnlike);
 
 router.post("/register", register);
 
 router.post("/logout", logout);
 
-router.post("/get", accesRoute, getUser);
+router.post("/comment", handleComment);
+
+router.post("/getcomment", handleGetComment);
+
+router.post("/get", getUser);
 
 router.post("/newblog", upload, createBlog);
 
-router.get("/Profile/:filename", getProfileImage);
+router.get("/Profile/:id", getProfileImage);
 
-router.get("/blogimage/:filename", getBlogImage);
+router.get("/blogimage/:id", getBlogImage);
 
-router.post("/blog", accesRoute, getBlog);
+router.post("/blog", getBlog);
 
-router.post("/users", accesRoute, allUser);
-
-router.post("/singleuser/:id", accesRoute, getSingleUser);
+router.post("/users", allUser);
 
 router.post("/deleteuser", handleRemoveUser);
 
 router.post("/deleteblog/:id", handleDeleteBlog);
-
-router.post("/singleblog/:id", accesRoute, handleGetSingleBlog);
 
 router.post("/editblog/:id", handleEditBlog);
 

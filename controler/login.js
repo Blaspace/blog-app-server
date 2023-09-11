@@ -28,11 +28,10 @@ const handleLogin = async (req, res) => {
       { expiresIn: "15d" }
     );
     //saving accesstoken in db
-    User.findOneAndUpdate(req.body.email, { refreshtoken })
-      .then(() => {
-        return;
-      })
-      .catch((err) => console.log(err));
+    User.findOneAndUpdate(
+      { email: req.body.email },
+      { refreshtoken: refreshtoken }
+    ).catch((err) => console.log(err));
 
     res.cookie("jwt", refreshtoken, {
       httpOnly: true,
@@ -44,6 +43,7 @@ const handleLogin = async (req, res) => {
     res.json({ accesstoken });
   } catch (err) {
     res.sendStatus(403);
+    console.log(err);
   }
 };
 

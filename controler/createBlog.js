@@ -1,4 +1,5 @@
 const Blog = require("../schemas/blogSchema");
+const fs = require("fs");
 
 const handleNewBlog = (req, res) => {
   const { date, blog, username, userid } = req.body;
@@ -11,12 +12,13 @@ const handleNewBlog = (req, res) => {
       blog,
       username,
       userid,
-      blogimagename: req.file.filename,
+      blogimagename: fs.readFileSync(`images/${req.file.filename}`),
     });
     newblog
       .save()
       .then((data) => res.send(data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => fs.unlinkSync(`images/${req.file.filename}`));
   } else {
     const newblog = new Blog({
       date,
