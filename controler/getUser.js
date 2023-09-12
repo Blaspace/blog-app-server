@@ -7,12 +7,19 @@ const handleGet = (req, res) => {
   //verifying the token
   User.findOne({ refreshtoken })
     .then((data) => {
+      let i = () => {
+        if (data.image) {
+          return true;
+        } else {
+          return false;
+        }
+      };
       res.json({
         name: data.username,
         email: data.email,
         state: data.state,
         job: data.job,
-        image: data.image,
+        image: i(),
         _id: data._id,
       });
     })
