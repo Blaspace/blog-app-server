@@ -19,6 +19,7 @@ const handleRegister = async (req, res) => {
     username,
     state,
     city,
+    hasimage: false,
   });
   user
     .save()

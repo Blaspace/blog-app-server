@@ -4,6 +4,7 @@ const fs = require("fs");
 const handleProfileUpload = (req, res) => {
   User.findByIdAndUpdate(req.params.id, {
     image: fs.readFileSync(`images/${req.file.filename}`),
+    hasimage: true,
   })
     .then((data) => res.sendStatus(200))
     .catch((err) => res.sendStatus(400))

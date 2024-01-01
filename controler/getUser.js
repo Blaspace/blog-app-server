@@ -6,22 +6,9 @@ const handleGet = (req, res) => {
   const refreshtoken = req.cookies.jwt;
   //verifying the token
   User.findOne({ refreshtoken })
+    .select("-image")
     .then((data) => {
-      let i = () => {
-        if (data.image) {
-          return true;
-        } else {
-          return false;
-        }
-      };
-      res.json({
-        name: data.username,
-        email: data.email,
-        state: data.state,
-        job: data.job,
-        image: i(),
-        _id: data._id,
-      });
+      res.json(data);
     })
     .catch((err) => res.sendStatus(400));
 };

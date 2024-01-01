@@ -13,6 +13,7 @@ const handleNewBlog = (req, res) => {
       username,
       userid,
       blogimagename: fs.readFileSync(`images/${req.file.filename}`),
+      hasimage: true,
     });
     newblog
       .save()
@@ -25,6 +26,7 @@ const handleNewBlog = (req, res) => {
       blog,
       username,
       userid,
+      hasimage: false,
     });
     newblog
       .save()

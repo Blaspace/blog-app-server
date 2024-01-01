@@ -29,6 +29,9 @@ const UserSchema = new mongoose.Schema({
   state: {
     type: String,
   },
+  hasimage: {
+    type: Boolean,
+  },
   image: Buffer,
 });
 
