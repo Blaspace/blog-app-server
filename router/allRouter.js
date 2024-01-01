@@ -20,6 +20,9 @@ const handleGetComment = require("../controler/getComments");
 const handleLike = require("../controler/handleLike");
 const handleUnlike = require("../controler/handleUnlike");
 const getLike = require("../controler/getLike");
+const handleFriend = require("../controler/handleFriend");
+const handleFriendStatus = require("../controler/friendStatus");
+const getFriends = require("../controler/getfriends");
 router = express.Router();
 
 router.post("/login", login);
@@ -35,6 +38,12 @@ router.post("/register", register);
 router.post("/logout", logout);
 
 router.post("/comment", handleComment);
+
+router.post("/friend", handleFriend);
+
+router.get("/allfriend", getFriends);
+
+router.post("/friendstatus", handleFriendStatus);
 
 router.post("/getcomment", handleGetComment);
 
