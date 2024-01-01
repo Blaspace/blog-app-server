@@ -41,7 +41,7 @@ router.post("/comment", handleComment);
 
 router.post("/friend", handleFriend);
 
-router.get("/allfriend", getFriends);
+router.post("/allfriend", getFriends);
 
 router.post("/friendstatus", handleFriendStatus);
 
