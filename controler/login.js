@@ -1,19 +1,23 @@
 const User = require("../schemas/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 const handleLogin = async (req, res) => {
   if (!req.body.email) return res.sendStatus(400);
   if (!req.body.password) return res.sendStatus(400);
 
   //checking if the user is in db
-  const founduser = await User.findOne({ email: req.body.email });
+  const founduser = await User.findOne({ email: req.body.email }).select(
+    "-image"
+  );
   if (!founduser) return res.sendStatus(401);
 
-  //checking if the users password is accurate
-  const match = await bcrypt.compare(req.body.password, founduser.password);
-  if (!match) return res.sendStatus(401);
-
+  const enteredpassword = crypto
+    .pbkdf2Sync(req.body.password, founduser.salt, 10000, 32, "sha256")
+    .toString("hex");
+  //const match = await bcript.compare(password, foundUser.password);
+  if (enteredpassword != founduser.password) return res.sendStatus(401);
   //sending jwt tokens
   try {
     const accesstoken = jwt.sign(

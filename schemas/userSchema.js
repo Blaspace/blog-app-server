@@ -33,6 +33,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
   },
   image: Buffer,
+  salt: String,
 });
 
 const User = mongoose.model("User", UserSchema);
